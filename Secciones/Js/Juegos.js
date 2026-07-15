@@ -1,0 +1,652 @@
+// ============================================
+//  EGGLISH – JUEGOS  |  juegos.js
+// ============================================
+
+// ══════════════════════════════════════════
+//  DATA — PREGUNTAS POR NIVEL Y JUEGO
+// ══════════════════════════════════════════
+
+const DATA = {
+  A1: {
+    mc: [
+      { q: "¿Cómo se dice 'Huevo' en inglés?",       opts: ["Chicken","Egg","Bird","Feather"],       ans: 1 },
+      { q: "¿Cómo se dice 'Perro' en inglés?",       opts: ["Cat","Horse","Dog","Rabbit"],           ans: 2 },
+      { q: "¿Cómo se dice 'Casa' en inglés?",        opts: ["Car","House","Tree","Door"],            ans: 1 },
+      { q: "¿Cómo se dice 'Agua' en inglés?",        opts: ["Milk","Juice","Fire","Water"],          ans: 3 },
+      { q: "¿Cómo se dice 'Manzana' en inglés?",     opts: ["Banana","Orange","Apple","Mango"],      ans: 2 },
+    ],
+    match: [
+      { es:"Gato",   en:"Cat"   },
+      { es:"Libro",  en:"Book"  },
+      { es:"Rojo",   en:"Red"   },
+      { es:"Niño",   en:"Child" },
+      { es:"Luna",   en:"Moon"  },
+    ],
+    listen: [
+      { word:"Apple",   opts:["Manzana","Naranja","Uva","Pera"],         ans:0 },
+      { word:"Dog",     opts:["Gato","Perro","Pájaro","Pez"],            ans:1 },
+      { word:"House",   opts:["Carro","Árbol","Casa","Puerta"],          ans:2 },
+      { word:"Water",   opts:["Leche","Jugo","Fuego","Agua"],            ans:3 },
+      { word:"Red",     opts:["Azul","Verde","Rojo","Amarillo"],         ans:2 },
+    ],
+  },
+  A2: {
+    mc: [
+      { q: "¿Qué significa 'I am hungry'?",           opts: ["Tengo sueño","Tengo frío","Tengo hambre","Estoy cansado"],  ans: 2 },
+      { q: "¿Qué significa 'She likes music'?",       opts: ["Él toca música","A ella le gusta la música","Ella odia música","Ella escucha música"], ans: 1 },
+      { q: "¿Cuál es el plural de 'child'?",          opts: ["Childs","Childes","Children","Child's"],                    ans: 2 },
+      { q: "¿Qué significa 'We are going to school'?",opts: ["Venimos de la escuela","Vamos a la escuela","Estamos en la escuela","Nos gusta la escuela"], ans: 1 },
+      { q: "¿Cuál es el pasado de 'go'?",             opts: ["Goed","Goes","Going","Went"],                               ans: 3 },
+    ],
+    fill: [
+      { sentence: "She ___ a doctor.", bank: ["am","is","are","be"],    ans: ["is"],   full: "She is a doctor." },
+      { sentence: "They ___ soccer every day.", bank: ["plays","playing","play","played"], ans: ["play"], full: "They play soccer every day." },
+      { sentence: "I ___ like coffee.", bank: ["doesn't","don't","not","no"],  ans: ["don't"], full: "I don't like coffee." },
+      { sentence: "He ___ to school by bus.", bank: ["go","goes","going","went"], ans: ["goes"], full: "He goes to school by bus." },
+      { sentence: "We ___ happy today.", bank: ["is","am","be","are"],   ans: ["are"],  full: "We are happy today." },
+    ],
+    listen: [
+      { word:"Breakfast", opts:["Almuerzo","Cena","Desayuno","Merienda"],          ans:2 },
+      { word:"Library",   opts:["Banco","Hospital","Parque","Biblioteca"],         ans:3 },
+      { word:"Cloudy",    opts:["Soleado","Nublado","Lluvioso","Nevado"],          ans:1 },
+      { word:"Bicycle",   opts:["Carro","Moto","Bicicleta","Camión"],              ans:2 },
+      { word:"Yesterday", opts:["Mañana","Hoy","Ayer","Ahora"],                   ans:2 },
+    ],
+  },
+  B1: {
+    mc: [
+      { q: "Choose the correct sentence:",            opts: ["He don't know the answer","He doesn't knows the answer","He doesn't know the answer","He not know the answer"], ans: 2 },
+      { q: "¿Cuál es el condicional de: 'If it rains...'?", opts: ["...I go home","...I will go home","...I went home","...I going home"],  ans: 1 },
+      { q: "What does 'Although' mean?",              opts: ["Además","Por lo tanto","Aunque","Sin embargo"],            ans: 2 },
+      { q: "Choose the correct passive voice:",       opts: ["The cake was ate by him","The cake was eaten by him","The cake is ate by him","The cake were eaten by him"], ans: 1 },
+      { q: "What does 'Nevertheless' mean?",         opts: ["Además","Sin embargo","Por eso","Al mismo tiempo"],        ans: 1 },
+    ],
+    translate: [
+      { es:"Ella ha vivido aquí por cinco años.",   bank:["She","has","lived","here","for","five","years","ago","since","live"], ans:["She","has","lived","here","for","five","years"] },
+      { es:"Ellos estaban comiendo cuando llegué.", bank:["They","were","eating","when","I","arrived","come","was","are","came"], ans:["They","were","eating","when","I","arrived"] },
+      { es:"Si estudias, aprobarás el examen.",     bank:["If","you","study","you","will","pass","the","exam","would","are"],    ans:["If","you","study","you","will","pass","the","exam"] },
+      { es:"El libro fue escrito por ella.",        bank:["The","book","was","written","by","her","she","wrote","is","write"],   ans:["The","book","was","written","by","her"] },
+      { es:"Me gustaría tomar un café, por favor.", bank:["I","would","like","a","coffee","please","want","will","can","have"],  ans:["I","would","like","a","coffee","please"] },
+    ],
+    fill: [
+      { sentence: "By the time she arrived, we ___ already left.", bank:["had","have","has","was"],   ans:["had"],  full:"By the time she arrived, we had already left." },
+      { sentence: "She suggested ___ the movie together.",          bank:["watch","to watch","watching","watched"], ans:["watching"], full:"She suggested watching the movie together." },
+      { sentence: "He ___ in London for ten years now.",            bank:["lived","lives","has lived","is living"], ans:["has lived"], full:"He has lived in London for ten years now." },
+      { sentence: "If I ___ you, I would apologize.",               bank:["am","was","were","had"],   ans:["were"], full:"If I were you, I would apologize." },
+      { sentence: "The report must ___ by Monday.",                 bank:["submit","to submit","submitting","be submitted"], ans:["be submitted"], full:"The report must be submitted by Monday." },
+    ],
+  }
+};
+
+// ══════════════════════════════════════════
+//  GAME CATALOGUE
+// ══════════════════════════════════════════
+
+const GAMES = [
+  { id:"mc",        levels:["A1","A2","B1"], icon:"🎯", title:"Opción Múltiple",  desc:"Lee la pregunta y elige la respuesta correcta entre 4 opciones.",    screen:"screen-mc" },
+  { id:"match",     levels:["A1"],           icon:"🔗", title:"Conecta Palabras", desc:"Empareja cada palabra en español con su traducción en inglés.",        screen:"screen-match" },
+  { id:"fill",      levels:["A2","B1"],      icon:"✏️", title:"Completa la Frase",desc:"Arrastra las palabras correctas para completar la oración.",           screen:"screen-fill" },
+  { id:"listen",    levels:["A1","A2"],      icon:"🔊", title:"Escucha y Elige",  desc:"Escucha la palabra (texto a voz) y elige su significado en español.", screen:"screen-listen" },
+  { id:"translate", levels:["B1"],           icon:"🌐", title:"Traduce la Frase", desc:"Ordena las palabras para traducir la oración correctamente al inglés.",screen:"screen-translate" },
+];
+
+// ══════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════
+
+let currentLevel = "A1";
+let currentGame  = null;
+let currentQ     = 0;
+let score        = 0;
+let totalQ       = 0;
+let lastScreen   = "screen-levels";
+
+// Match game state
+let matchSelected = null;
+let matchPairs    = [];
+let matchDone     = 0;
+
+// Fill / translate state
+let fillData      = [];
+let translateData = [];
+let fillAnswers   = [];
+let fillCurrent   = 0;
+
+// ══════════════════════════════════════════
+//  NAVIGATION
+// ══════════════════════════════════════════
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const s = document.getElementById(id);
+  s.classList.add('active');
+  document.getElementById('main-footer').style.display = (id === 'screen-levels') ? '' : 'none';
+  window.scrollTo(0,0);
+}
+
+function goBack() { showScreen('screen-levels'); }
+function goLevels(){ showScreen('screen-levels'); }
+
+// ══════════════════════════════════════════
+//  BUILD GAME SELECTOR
+// ══════════════════════════════════════════
+
+function buildGrid(level) {
+  const grid = document.getElementById('games-grid');
+  grid.innerHTML = '';
+  const available = GAMES.filter(g => g.levels.includes(level));
+  available.forEach(g => {
+    const card = document.createElement('div');
+    card.className = 'game-card-sel';
+    card.innerHTML = `
+      <div class="game-card-icon">${g.icon}</div>
+      <div>
+        <div class="game-card-title">${g.title}</div>
+        <span class="game-card-badge badge-${level}">${level}</span>
+      </div>
+      <div class="game-card-desc">${g.desc}</div>
+      <button class="btn-play btn-${level}" onclick="startGame('${g.id}','${level}')">▶ Jugar</button>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+// Level tabs
+document.querySelectorAll('.level-tab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.level-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentLevel = btn.dataset.level;
+    buildGrid(currentLevel);
+  });
+});
+
+// ══════════════════════════════════════════
+//  START GAME
+// ══════════════════════════════════════════
+
+function startGame(gameId, level) {
+  currentGame  = gameId;
+  currentLevel = level;
+  currentQ     = 0;
+  score        = 0;
+
+  if (gameId === 'mc')        startMC(level);
+  else if (gameId === 'match')startMatch(level);
+  else if (gameId === 'fill') startFill(level);
+  else if (gameId === 'listen')startListen(level);
+  else if (gameId === 'translate') startTranslate(level);
+}
+
+// ══════════════════════════════════════════
+//  GAME 1: MULTIPLE CHOICE
+// ══════════════════════════════════════════
+
+function startMC(level) {
+  const qs = shuffle([...DATA[level].mc]).slice(0,5);
+  DATA._mcSession = qs;
+  totalQ = qs.length;
+  document.getElementById('mc-level-tag').textContent = level;
+  document.getElementById('mc-score').textContent = 0;
+  renderMC();
+  showScreen('screen-mc');
+}
+
+function renderMC() {
+  const qs = DATA._mcSession;
+  const q  = qs[currentQ];
+  document.getElementById('mc-q-label').textContent = `Pregunta ${currentQ+1}`;
+  document.getElementById('mc-q-total').textContent = `de ${totalQ}`;
+  document.getElementById('mc-progress').style.width = `${((currentQ)/totalQ)*100}%`;
+  document.getElementById('mc-question').textContent = q.q;
+
+  const grid = document.getElementById('mc-options');
+  grid.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.textContent = opt;
+    btn.onclick = () => handleMC(btn, i, q.ans, grid);
+    grid.appendChild(btn);
+  });
+  document.getElementById('mc-score').textContent = score;
+}
+
+function handleMC(btn, chosen, correct, grid) {
+  grid.querySelectorAll('.option-btn').forEach((b,i) => {
+    b.disabled = true;
+    if (i === correct) b.classList.add('correct');
+    else if (i === chosen) b.classList.add('wrong');
+  });
+  if (chosen === correct) {
+    score += 10;
+    document.getElementById('mc-score').textContent = score;
+    btn.classList.add('correct');
+  } else {
+    btn.classList.add('wrong','shake');
+  }
+  setTimeout(() => {
+    currentQ++;
+    if (currentQ < totalQ) renderMC();
+    else showResults('Opción Múltiple');
+  }, 1000);
+}
+
+// ══════════════════════════════════════════
+//  GAME 2: WORD MATCH
+// ══════════════════════════════════════════
+
+function startMatch(level) {
+  matchPairs    = shuffle([...DATA[level].match]).slice(0,5);
+  matchSelected = null;
+  matchDone     = 0;
+  score         = 0;
+  totalQ        = matchPairs.length;
+  document.getElementById('match-level-tag').textContent = level;
+  document.getElementById('match-score').textContent = 0;
+  document.getElementById('match-feedback').textContent = '';
+
+  const esCol = document.getElementById('match-es');
+  const enCol = document.getElementById('match-en');
+  esCol.innerHTML = '';
+  enCol.innerHTML = '';
+
+  const shuffledEn = shuffle(matchPairs.map(p => p.en));
+
+  matchPairs.forEach((pair, i) => {
+    const eBtn = makeMatchBtn(pair.es, 'es', i);
+    esCol.appendChild(eBtn);
+  });
+  shuffledEn.forEach((word, i) => {
+    const enBtn = makeMatchBtn(word, 'en', i);
+    enCol.appendChild(enBtn);
+  });
+  showScreen('screen-match');
+}
+
+function makeMatchBtn(word, lang, idx) {
+  const btn = document.createElement('button');
+  btn.className = 'match-btn';
+  btn.textContent = word;
+  btn.dataset.lang = lang;
+  btn.dataset.word = word;
+  btn.onclick = () => handleMatch(btn);
+  return btn;
+}
+
+function handleMatch(btn) {
+  if (btn.classList.contains('correct')) return;
+
+  if (!matchSelected) {
+    document.querySelectorAll('.match-btn.selected').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    matchSelected = btn;
+    return;
+  }
+  if (matchSelected === btn) {
+    btn.classList.remove('selected');
+    matchSelected = null;
+    return;
+  }
+
+  // Need one from each column
+  const a = matchSelected, b = btn;
+  if (a.dataset.lang === b.dataset.lang) {
+    a.classList.remove('selected');
+    b.classList.add('selected');
+    matchSelected = b;
+    return;
+  }
+
+  const esWord = a.dataset.lang === 'es' ? a.dataset.word : b.dataset.word;
+  const enWord = a.dataset.lang === 'en' ? a.dataset.word : b.dataset.word;
+  const correct = matchPairs.find(p => p.es === esWord && p.en === enWord);
+
+  if (correct) {
+    [a,b].forEach(x => { x.classList.remove('selected'); x.classList.add('correct'); });
+    score += 10;
+    matchDone++;
+    document.getElementById('match-score').textContent = score;
+    document.getElementById('match-feedback').textContent = '✅ ¡Correcto!';
+    document.getElementById('match-feedback').style.color = '#58cc02';
+    if (matchDone >= matchPairs.length) setTimeout(() => showResults('Conecta Palabras'), 800);
+  } else {
+    [a,b].forEach(x => { x.classList.remove('selected'); x.classList.add('wrong'); });
+    document.getElementById('match-feedback').textContent = '❌ Inténtalo de nuevo';
+    document.getElementById('match-feedback').style.color = '#ff4b4b';
+    setTimeout(() => {
+      [a,b].forEach(x => x.classList.remove('wrong'));
+      document.getElementById('match-feedback').textContent = '';
+    }, 700);
+  }
+  matchSelected = null;
+}
+
+// ══════════════════════════════════════════
+//  GAME 3: FILL THE BLANK
+// ══════════════════════════════════════════
+
+function startFill(level) {
+  fillData    = shuffle([...DATA[level].fill]).slice(0,5);
+  fillCurrent = 0;
+  score       = 0;
+  totalQ      = fillData.length;
+  document.getElementById('fill-level-tag').textContent = level;
+  document.getElementById('fill-score').textContent = 0;
+  renderFill();
+  showScreen('screen-fill');
+}
+
+function renderFill() {
+  const q = fillData[fillCurrent];
+  fillAnswers = [];
+  document.getElementById('fill-q-label').textContent = `Pregunta ${fillCurrent+1}`;
+  document.getElementById('fill-q-total').textContent = `de ${totalQ}`;
+  document.getElementById('fill-progress').style.width = `${(fillCurrent/totalQ)*100}%`;
+  document.getElementById('fill-sentence').textContent = q.sentence;
+  document.getElementById('fill-score').textContent = score;
+
+  const bank = document.getElementById('fill-bank');
+  bank.innerHTML = '';
+  shuffle([...q.bank]).forEach(w => {
+    const chip = document.createElement('button');
+    chip.className = 'word-chip';
+    chip.textContent = w;
+    chip.dataset.word = w;
+    chip.onclick = () => addToFillAnswer(chip, q);
+    bank.appendChild(chip);
+  });
+
+  document.getElementById('fill-answer-row').innerHTML = '';
+  document.getElementById('fill-check-btn').disabled = false;
+}
+
+function addToFillAnswer(chip, q) {
+  if (chip.classList.contains('used')) return;
+  chip.classList.add('used');
+  fillAnswers.push(chip.dataset.word);
+
+  const row = document.getElementById('fill-answer-row');
+  const ac = document.createElement('button');
+  ac.className = 'answer-chip';
+  ac.textContent = chip.dataset.word;
+  ac.onclick = () => {
+    fillAnswers.splice(fillAnswers.indexOf(chip.dataset.word),1);
+    ac.remove();
+    chip.classList.remove('used');
+  };
+  row.appendChild(ac);
+}
+
+function checkFill() {
+  const q = fillData[fillCurrent];
+  const correct = fillAnswers.join(' ') === q.ans.join(' ');
+  const row = document.getElementById('fill-answer-row');
+
+  if (correct) {
+    row.style.border = '2.5px solid #58cc02';
+    score += 10;
+  } else {
+    row.style.border = '2.5px solid #ff4b4b';
+    row.style.animation = 'none';
+    // Show correct answer momentarily
+    row.innerHTML = `<span style="color:#ff4b4b;font-weight:800">✗ Respuesta: ${q.ans.join(' ')}</span>`;
+  }
+  document.getElementById('fill-check-btn').disabled = true;
+  setTimeout(() => {
+    row.style.border = '2.5px dashed #e5e7eb';
+    fillCurrent++;
+    if (fillCurrent < totalQ) renderFill();
+    else showResults('Completa la Frase');
+  }, 1100);
+}
+
+// ══════════════════════════════════════════
+//  GAME 4: LISTEN & CHOOSE
+// ══════════════════════════════════════════
+
+let listenSession = [];
+let isSpeaking    = false;
+
+function startListen(level) {
+  listenSession = shuffle([...DATA[level].listen]).slice(0,5);
+  currentQ  = 0;
+  score     = 0;
+  totalQ    = listenSession.length;
+  document.getElementById('listen-level-tag').textContent = level;
+  document.getElementById('listen-score').textContent = 0;
+  renderListen();
+  showScreen('screen-listen');
+}
+
+function renderListen() {
+  const q = listenSession[currentQ];
+  document.getElementById('listen-q-label').textContent = `Pregunta ${currentQ+1}`;
+  document.getElementById('listen-q-total').textContent = `de ${totalQ}`;
+  document.getElementById('listen-progress').style.width = `${(currentQ/totalQ)*100}%`;
+  document.getElementById('listen-score').textContent = score;
+
+  // Speak automatically
+  setTimeout(() => speakWord(), 400);
+
+  const grid = document.getElementById('listen-options');
+  grid.innerHTML = '';
+  q.opts.forEach((opt,i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.textContent = opt;
+    btn.onclick = () => handleListen(btn, i, q.ans, grid);
+    grid.appendChild(btn);
+  });
+}
+
+function speakWord() {
+  if (!('speechSynthesis' in window)) return;
+  const q = listenSession[currentQ];
+  const utt = new SpeechSynthesisUtterance(q.word);
+  utt.lang = 'en-US'; utt.rate = 0.85;
+  const speakBtn = document.getElementById('btn-speak');
+  speakBtn.classList.add('playing');
+  utt.onend = () => speakBtn.classList.remove('playing');
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(utt);
+}
+
+function handleListen(btn, chosen, correct, grid) {
+  grid.querySelectorAll('.option-btn').forEach((b,i) => {
+    b.disabled = true;
+    if (i === correct) b.classList.add('correct');
+    else if (i === chosen) b.classList.add('wrong');
+  });
+  if (chosen === correct) {
+    score += 10;
+    document.getElementById('listen-score').textContent = score;
+  } else {
+    btn.classList.add('shake');
+  }
+  setTimeout(() => {
+    currentQ++;
+    if (currentQ < totalQ) renderListen();
+    else showResults('Escucha y Elige');
+  }, 1000);
+}
+
+// ══════════════════════════════════════════
+//  GAME 5: TRANSLATE
+// ══════════════════════════════════════════
+
+let transSession = [];
+let transAnswers  = [];
+let transCurrent  = 0;
+
+function startTranslate(level) {
+  transSession = shuffle([...DATA[level].translate]).slice(0,5);
+  transCurrent = 0;
+  transAnswers = [];
+  score        = 0;
+  totalQ       = transSession.length;
+  document.getElementById('translate-level-tag').textContent = level;
+  document.getElementById('translate-score').textContent = 0;
+  renderTranslate();
+  showScreen('screen-translate');
+}
+
+function renderTranslate() {
+  const q = transSession[transCurrent];
+  transAnswers = [];
+  document.getElementById('translate-q-label').textContent = `Pregunta ${transCurrent+1}`;
+  document.getElementById('translate-q-total').textContent = `de ${totalQ}`;
+  document.getElementById('translate-progress').style.width = `${(transCurrent/totalQ)*100}%`;
+  document.getElementById('translate-sentence').textContent = q.es;
+  document.getElementById('translate-score').textContent = score;
+
+  const bank = document.getElementById('translate-bank');
+  bank.innerHTML = '';
+  shuffle([...q.bank]).forEach(w => {
+    const chip = document.createElement('button');
+    chip.className = 'word-chip';
+    chip.textContent = w;
+    chip.dataset.word = w;
+    chip.onclick = () => addToTransAnswer(chip);
+    bank.appendChild(chip);
+  });
+
+  document.getElementById('translate-answer-row').innerHTML = '';
+  document.getElementById('translate-check-btn').disabled = false;
+}
+
+function addToTransAnswer(chip) {
+  if (chip.classList.contains('used')) return;
+  chip.classList.add('used');
+  transAnswers.push(chip.dataset.word);
+
+  const row = document.getElementById('translate-answer-row');
+  const ac = document.createElement('button');
+  ac.className = 'answer-chip';
+  ac.textContent = chip.dataset.word;
+  ac.onclick = () => {
+    transAnswers.splice(transAnswers.indexOf(chip.dataset.word),1);
+    ac.remove();
+    chip.classList.remove('used');
+  };
+  row.appendChild(ac);
+}
+
+function checkTranslate() {
+  const q = transSession[transCurrent];
+  const correct = transAnswers.join(' ') === q.ans.join(' ');
+  const row = document.getElementById('translate-answer-row');
+
+  if (correct) {
+    row.style.border = '2.5px solid #58cc02';
+    score += 10;
+  } else {
+    row.style.border = '2.5px solid #ff4b4b';
+    row.innerHTML = `<span style="color:#ff4b4b;font-weight:800">✗ Respuesta: ${q.ans.join(' ')}</span>`;
+  }
+  document.getElementById('translate-check-btn').disabled = true;
+  setTimeout(() => {
+    row.style.border = '2.5px dashed #e5e7eb';
+    transCurrent++;
+    if (transCurrent < totalQ) renderTranslate();
+    else showResults('Traduce la Frase');
+  }, 1100);
+}
+
+// ══════════════════════════════════════════
+//  RESULTS SCREEN
+// ══════════════════════════════════════════
+
+let lastGameName = '';
+
+function showResults(gameName) {
+  lastGameName = gameName;
+  const maxScore = totalQ * 10;
+  const pct = score / maxScore;
+
+  let title, sub;
+  if (pct === 1)       { title = '🎉 ¡Perfecto!';       sub = '¡Respuestas perfectas! Eres increíble.'; }
+  else if (pct >= .7)  { title = '🌟 ¡Muy bien!';       sub = 'Casi perfecto, ¡sigue así!'; }
+  else if (pct >= .4)  { title = '👍 ¡Buen intento!';   sub = 'Puedes mejorar. ¡Inténtalo de nuevo!'; }
+  else                 { title = '💪 ¡Sigue practicando!'; sub = 'La práctica hace al maestro.'; }
+
+  document.getElementById('results-title').textContent    = title;
+  document.getElementById('results-subtitle').textContent = sub;
+  document.getElementById('results-score-val').textContent = score;
+
+  // Badges
+  const badgeContainer = document.getElementById('results-badges');
+  badgeContainer.innerHTML = '';
+  const badges = [];
+  if (score >= 50)         badges.push({ label:'⭐ Estrella',    color:'#f5a623' });
+  if (pct === 1)           badges.push({ label:'💯 Perfecto',    color:'#58cc02' });
+  if (gameName === 'Escucha y Elige') badges.push({ label:'🔊 Oído fino', color:'#1cb0f6' });
+  if (currentLevel === 'B1')          badges.push({ label:'🦅 Nivel B1', color:'#8549ba' });
+  badges.forEach(b => {
+    const el = document.createElement('span');
+    el.className = 'result-badge';
+    el.style.background = b.color;
+    el.textContent = b.label;
+    badgeContainer.appendChild(el);
+  });
+
+  // Confetti
+  spawnConfetti();
+  showScreen('screen-results');
+}
+
+function spawnConfetti() {
+  const container = document.getElementById('confetti-container');
+  container.innerHTML = '';
+  const colors = ['#f5a623','#1cb0f6','#58cc02','#ff4b4b','#8549ba','#ff9600'];
+  for (let i = 0; i < 28; i++) {
+    const piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    piece.style.cssText = `
+      left: ${Math.random()*100}%;
+      background: ${colors[Math.floor(Math.random()*colors.length)]};
+      animation-delay: ${Math.random()*1.5}s;
+      animation-duration: ${1.5+Math.random()}s;
+      width: ${6+Math.random()*8}px;
+      height: ${6+Math.random()*8}px;
+      border-radius: ${Math.random()>.5?'50%':'3px'};
+    `;
+    container.appendChild(piece);
+  }
+}
+
+function playAgain() { startGame(currentGame, currentLevel); }
+
+// ══════════════════════════════════════════
+//  UTILITIES
+// ══════════════════════════════════════════
+
+function shuffle(arr) {
+  for (let i = arr.length-1; i > 0; i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]] = [arr[j],arr[i]];
+  }
+  return arr;
+}
+
+// ══════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════
+
+buildGrid('A1');
+
+document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.getElementById('hamburger-btn');
+    const menu = document.getElementById('nav-menu');
+
+    if (btn && menu) {
+        btn.onclick = (e) => {
+            e.preventDefault(); // Evita cualquier salto
+            e.stopPropagation();
+            menu.classList.toggle('active');
+            
+            // Opcional: Cambia el icono de la hamburguesa a una X
+            btn.classList.toggle('is-active');
+        };
+    }
+});

@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Egglish - Práctica de Escucha</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Variables Corporativas Egglish */
+            --bg-main: #ffffff;
+            --bg-body: #f9fafb;
+            --border-light: #e5e7eb;
+            --text-dark: #3c3c3c;
+            --text-gray: #777777;
+            
+            --blue: #1cb0f6;
+            --blue-shadow: #1899d6;
+            --blue-light: #ddf4ff;
+            --blue-light-border: #84d8ff;
+
+            --yellow: #ffb020;
+            --yellow-shadow: #e59400;
+
+            --green: #58cc02;
+            --green-shadow: #46a302;
+            --red: #ff4b4b;
+            --red-shadow: #d33131;
+
+            --gray-btn: #e5e5e5;
+            --gray-text: #afafaf;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* --- NAVBAR EGGGLISH --- */
+        /* --- NAVBAR EGGGLISH (AJUSTADO) --- */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Esto empuja el logo a la izquierda y el botón a la derecha */
+    padding: 0 20px;
+    height: 70px;
+    background: white;
+    position: relative;
+}
+
+/* El contenedor que envuelve links y auth */
+.nav-menu {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex: 1;
+    margin-left: 20px;
+}
+
+.navbar-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    flex-shrink: 0;
+}
+
+.logo-img {
+    width: 40px;
+    height: 40px;
+}
+
+.logo-text {
+    font-size: 24px;
+    font-weight: 800;
+    color: #111b21;
+}
+
+.navbar-links {
+    display: flex;
+    list-style: none;
+    gap: 15px;
+    margin: 0 auto; /* Centra los links en escritorio */
+}
+
+.navbar-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    text-decoration: none;
+    color: var(--text-mid);
+    font-weight: 700;
+    font-size: 15px;
+    border-radius: 12px;
+    transition: all 0.2s;
+    white-space: nowrap;
+    line-height: 1;
+}
+
+.navbar-links a:hover {
+    background-color: #f7f7f7;
+}
+
+.navbar-links a.active {
+    color: var(--blue);
+    background-color: #dbeafe; /* Tu azul claro */
+}
+
+.navbar-auth {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.btn-entrar {
+    text-decoration: none;
+    color: var(--text-mid);
+    font-weight: 800;
+    font-size: 15px;
+}
+
+.btn-registrarse {
+    background-color: var(--yellow);
+    color: white;
+    padding: 10px 24px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 800;
+    text-transform: none;
+    box-shadow: 0 4px 0 var(--yellow-d);
+    transition: all 0.1s;
+}
+
+.btn-registrarse:active {
+    box-shadow: 0 0 0 var(--yellow-d);
+    transform: translateY(4px);
+}
+
+/* --- LÓGICA MOBILE-FIRST PARA EL MENÚ --- */
+
+/* Escondemos el botón en escritorio */
+.hamburger {
+    display: flex; /* Cambiado de 'none' a 'flex' para probar */
+    flex-direction: column;
+    justify-content: space-around; /* Distribuye las rayitas */
+    width: 30px;
+    height: 24px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1001;
+    position: relative;
+}
+
+.hamburger span {
+    display: block;
+    width: 100%;
+    height: 4px;
+    background-color: #111b21; /* Color oscuro para que resalte en el fondo blanco */
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+@media (max-width: 768px) {
+    .nav-menu {
+        /* ... tus otras propiedades (position, left, etc.) ... */
+        
+        display: flex;
+        flex-direction: column;
+        
+        /* SOLUCIÓN AL SCROLL */
+        overflow-y: auto;       /* Permite scroll vertical si el contenido supera la pantalla */
+        max-height: 100vh;      /* El menú no puede medir más que la ventana */
+        padding-bottom: 40px;   /* Espacio extra al final para que el botón no pegue abajo */
+    }
+
+}
+
+/* Ocultar en escritorio (Pantallas grandes) */
+@media (min-width: 769px) {
+    .hamburger {
+        display: none !important;
+    }
+}
+@media (max-width: 768px) {
+    .hamburger { display: flex; }
+
+    .nav-menu {
+        position: fixed;
+        top: 70px;
+        left: -100%; /* Fuera de pantalla a la izquierda */
+        flex-direction: column;
+        background: white;
+        width: 100%;
+        height: calc(100vh - 70px);
+        padding: 40px 20px;
+        transition: 0.4s ease-in-out;
+        margin: 0;
+        justify-content: flex-start;
+        gap: 40px;
+    }
+
+    .nav-menu.active {
+        left: 0; /* Entra suavemente */
+    }
+
+    .navbar-links {
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+    }
+
+    .navbar-links a {
+        width: 100%;
+        font-size: 18px;
+        padding: 15px;
+    }
+
+    .navbar-auth {
+        flex-direction: column;
+        width: 100%;
+        border-top: 1px solid var(--border);
+        padding-top: 20px;
+    }
+
+    .btn-registrarse {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background-color: var(--text-dark);
+            border-radius: 2px;
+        }
+
+        /* --- MAIN CONTENT --- */
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .level-selector {
+            margin-bottom: 25px;
+            padding: 12px 20px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            border: 2px solid var(--border-light);
+            border-radius: 12px;
+            color: var(--text-dark);
+            background: white;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .lesson-card {
+            background: var(--bg-main);
+            border: 2px solid var(--border-light);
+            border-radius: 20px;
+            box-shadow: 0 4px 0 var(--border-light);
+            width: 100%;
+            max-width: 480px;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 16px;
+            background: var(--gray-btn);
+            border-radius: 10px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--green);
+            width: 0%;
+            border-radius: 10px;
+            transition: width 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+        }
+
+        .instruction {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 24px;
+            text-align: left;
+        }
+
+        .audio-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 32px;
+        }
+
+        .btn-audio {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--blue);
+            box-shadow: 0 6px 0 var(--blue-shadow);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.1s;
+        }
+
+        .btn-audio:active {
+            box-shadow: 0 0 0 var(--blue-shadow);
+            transform: translateY(6px);
+        }
+
+        .btn-audio svg {
+            width: 50px;
+            height: 50px;
+            fill: white;
+        }
+
+        .btn-audio.playing {
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        .option {
+            background: white;
+            border: 2px solid var(--border-light);
+            border-radius: 16px;
+            padding: 16px 20px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s;
+            box-shadow: 0 2px 0 var(--border-light);
+        }
+
+        .option:hover:not(:disabled) {
+            background-color: #f7f7f7;
+        }
+
+        .option.selected {
+            background: var(--blue-light);
+            border-color: var(--blue-light-border);
+            color: var(--blue);
+            box-shadow: 0 2px 0 var(--blue-light-border);
+        }
+
+        .option.correct {
+            background: #e5f6d3;
+            border-color: var(--green);
+            color: var(--green);
+            box-shadow: 0 2px 0 var(--green);
+        }
+
+        .option.wrong {
+            background: #ffdfe0;
+            border-color: var(--red);
+            color: var(--red);
+            box-shadow: 0 2px 0 var(--red);
+        }
+
+        .bottom-section {
+            border-top: 2px solid var(--border-light);
+            padding-top: 24px;
+        }
+
+        .btn-action {
+            width: 100%;
+            padding: 18px;
+            border-radius: 16px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            transition: all 0.1s;
+            background: var(--gray-btn);
+            color: var(--gray-text);
+            pointer-events: none;
+        }
+
+        .btn-action.active {
+            background: var(--green);
+            color: white;
+            box-shadow: 0 4px 0 var(--green-shadow);
+            pointer-events: auto;
+        }
+
+        .btn-action.active:active {
+            box-shadow: 0 0 0 var(--green-shadow);
+            transform: translateY(4px);
+        }
+
+        .btn-action.continue {
+            background: var(--blue);
+            box-shadow: 0 4px 0 var(--blue-shadow);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            padding: 60px 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            background-color: white;
+            border-top: 2px solid var(--border-light);
+        }
+
+        .footer-logo img {
+            width: 45px;
+            margin-bottom: 10px;
+        }
+
+        .footer-logo h3 {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .footer-slogan {
+            color: var(--text-gray);
+            font-size: 15px;
+            max-width: 300px;
+            line-height: 1.4;
+            margin-bottom: 10px;
+        }
+
+        .footer-copy {
+            color: var(--blue);
+            font-weight: 700;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="/index.html" class="navbar-logo">
+    <img src="https://em-content.zobj.net/source/twitter/376/hatching-chick_1f423.png" alt="logo" class="logo-img"/>
+    <span class="logo-text">Egglish</span>
+  </a>
+
+  <button class="hamburger" id="hamburger-btn">
+    <span></span><span></span><span></span>
+  </button>
+
+  <div class="nav-menu" id="nav-menu">
+    <ul class="navbar-links">
+      <li><a href="/index.html">🏠 Inicio</a></li>
+      <li><a href="/Secciones/lecciones.html" class="active">📖 Lecciones</a></li>
+      <li><a href="/Secciones/Escucha.html">🎯 Escucha</a></li>
+      <li><a href="/Secciones/juegos.html">🎮 Juegos</a></li>
+      <li><a href="/Secciones/perfil.html">👤 Perfil</a></li>
+      <li><a href="/Secciones/eggy.html">🤖 Eggy IA</a></li>
+    </ul>
+
+    <div class="navbar-auth">
+      <a href="/entrar.html" class="btn-entrar">→ Entrar</a>
+      <a href="/Secciones/Registro.html" class="btn-registrarse">Registrarse</a>
+    </div>
+  </div>
+</nav>
+
+    <main>
+        <select id="levelSelector" class="level-selector">
+            <option value="A1">Nivel A1 (Principiante)</option>
+            <option value="A2">Nivel A2 (Básico)</option>
+            <option value="B1">Nivel B1 (Intermedio)</option>
+        </select>
+
+        <div class="lesson-card">
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+
+            <h2 class="instruction" id="questionText">Toca para escuchar</h2>
+
+            <div class="audio-wrapper">
+                <button class="btn-audio" id="audioBtn">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="options-container" id="optionsContainer">
+                </div>
+
+            <div class="bottom-section">
+                <button class="btn-action" id="actionBtn">Comprobar</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-logo">
+            <img src="https://em-content.zobj.net/source/twitter/376/hatching-chick_1f423.png" alt="Egglish Footer">
+            <h3>Egglish</h3>
+        </div>
+        <p class="footer-slogan">El pollito que te acompaña desde tu primer "Hello" hasta que hables con total fluidez.</p>
+        <a href="#" class="footer-copy">© 2026 Egglish. Todos los derechos reservados.</a>
+    </footer>
+
+<script>
+    // ============================================================
+    //  EGGLISH – Escucha.html  ✅ CORREGIDO
+    //  Bugs corregidos:
+    //  1. actionBtn.onclick mezclado con addEventListener → doble disparo
+    //  2. Estado "isCompleted" faltante causaba que cualquier opción
+    //     pareciera correcta al reiniciar
+    //  3. selectedOptionIndex no se validaba antes de comprobarse
+    // ============================================================
+
+    const LESSON_DATA = {
+        A1: {
+            story: "I wake up at seven in the morning. I eat toast for breakfast. Then, I go to school by bus.",
+            rate: 0.8,
+            questions: [
+                { q: "¿A qué hora se despierta la persona?",  options: ["A las seis",   "A las siete",          "A las ocho"],   correct: 1 },
+                { q: "¿Qué desayunan?",                       options: ["Huevos",       "Cereal",               "Tostadas"],     correct: 2 },
+                { q: "¿Cómo van a la escuela?",               options: ["En carro",     "En bus",               "En tren"],      correct: 1 }
+            ]
+        },
+        A2: {
+            story: "Last weekend, we went to the mountains. The weather was very cold but sunny. We hiked for three hours. After that, we ate sandwiches near a beautiful lake.",
+            rate: 0.9,
+            questions: [
+                { q: "¿A dónde fueron el fin de semana pasado?", options: ["A la playa",       "A las montañas",    "A la ciudad"],    correct: 1 },
+                { q: "¿Cómo estaba el clima?",                   options: ["Frío y soleado",   "Cálido y lluvioso", "Nublado"],        correct: 0 },
+                { q: "¿Qué comieron cerca del lago?",            options: ["Pizza",            "Ensalada",          "Sándwiches"],     correct: 2 }
+            ]
+        },
+        B1: {
+            story: "Artificial intelligence is rapidly changing how we work and live. Many people use AI tools to draft emails or analyze complex data. Some individuals worry it might replace human jobs in the near future.",
+            rate: 1.0,
+            questions: [
+                { q: "¿Para qué usa la gente las herramientas de IA?",  options: ["Solo para jugar",  "Redactar correos y analizar datos", "Construir robots físicos"],       correct: 1 },
+                { q: "¿Cuál es una preocupación común mencionada?",      options: ["Es muy cara",     "Dejará de funcionar",               "Podría reemplazar empleos humanos"], correct: 2 }
+            ]
+        }
+    };
+
+    // ── Estado global ─────────────────────────────────────────
+    let currentLevel        = 'A1';
+    let currentQIndex       = 0;
+    let selectedOptionIndex = null;   // null = ninguna opción elegida
+    let isChecked           = false;  // true = ya se comprobó la respuesta
+    let isCompleted         = false;  // true = lección terminada (pantalla final)
+
+    // ── Referencias DOM ───────────────────────────────────────
+    const audioBtn         = document.getElementById('audioBtn');
+    const questionText     = document.getElementById('questionText');
+    const optionsContainer = document.getElementById('optionsContainer');
+    const actionBtn        = document.getElementById('actionBtn');
+    const progressBar      = document.getElementById('progressBar');
+    const levelSelector    = document.getElementById('levelSelector');
+
+    // ─────────────────────────────────────────────────────────
+    //  INICIAR / REINICIAR LECCIÓN
+    // ─────────────────────────────────────────────────────────
+    function initLesson() {
+        currentQIndex       = 0;
+        selectedOptionIndex = null;
+        isChecked           = false;
+        isCompleted         = false;
+        updateProgress();
+        loadQuestion();
+    }
+
+    // ─────────────────────────────────────────────────────────
+    //  AUDIO
+    // ─────────────────────────────────────────────────────────
+    function playAudio() {
+        if (window.speechSynthesis.speaking) window.speechSynthesis.cancel();
+        const data       = LESSON_DATA[currentLevel];
+        const utterance  = new SpeechSynthesisUtterance(data.story);
+        utterance.lang   = 'en-US';
+        utterance.rate   = data.rate;
+        utterance.onstart = () => audioBtn.classList.add('playing');
+        utterance.onend   = () => audioBtn.classList.remove('playing');
+        window.speechSynthesis.speak(utterance);
+    }
+
+    // ─────────────────────────────────────────────────────────
+    //  CARGAR PREGUNTA
+    // ─────────────────────────────────────────────────────────
+    function loadQuestion() {
+        // Reset estado por pregunta
+        selectedOptionIndex = null;
+        isChecked           = false;
+
+        const data = LESSON_DATA[currentLevel];
+
+        if (currentQIndex >= data.questions.length) {
+            showCompletion();
+            return;
+        }
+
+        const qData = data.questions[currentQIndex];
+        questionText.innerText       = qData.q;
+        optionsContainer.innerHTML   = '';
+
+        qData.options.forEach((optText, index) => {
+            const btn       = document.createElement('button');
+            btn.className   = 'option';
+            btn.innerText   = optText;
+            // ✅ Usamos addEventListener, NO onclick
+            btn.addEventListener('click', () => selectOption(index, btn));
+            optionsContainer.appendChild(btn);
+        });
+
+        resetActionBtn();
+    }
+
+    // ─────────────────────────────────────────────────────────
+    //  SELECCIONAR OPCIÓN
+    // ─────────────────────────────────────────────────────────
+    function selectOption(index, btnElement) {
+        // ✅ Bloquear si ya se comprobó o si la lección terminó
+        if (isChecked || isCompleted) return;
+
+        selectedOptionIndex = index;
+
+        // Quitar selección anterior
+        Array.from(optionsContainer.children).forEach(child => {
+            child.classList.remove('selected');
+        });
+
+        btnElement.classList.add('selected');
+
+        // Activar botón Comprobar
+        actionBtn.classList.add('active');
+        actionBtn.innerText = "Comprobar";
+    }
+
+    // ─────────────────────────────────────────────────────────
+    //  MANEJADOR ÚNICO DEL BOTÓN PRINCIPAL
+    //  ✅ UN SOLO addEventListener abajo, sin mezclar .onclick
+    // ─────────────────────────────────────────────────────────
+    function handleAction() {
+        if (isCompleted) {
+            // Reiniciar lección
+            initLesson();
+            return;
+        }
+
+        if (!isChecked) {
+            // ✅ Validar que hay una opción seleccionada
+            if (selectedOptionIndex === null) return;
+            validateAnswer();
+        } else {
+            nextQuestion();
+        }
+    }
+
+    // ─────────────────────────────────────────────────────────
+    //  VALIDAR RESPUESTA
+    // ─────────────────────────────────────────────────────────
+    function validateAnswer() {
+        isChecked = true;
+
+        const qData   = LESSON_DATA[currentLevel].questions[currentQIndex];
+        const options = Array.from(optionsContainer.children);
+
+        // Deshabilitar todas las opciones
+        options.forEach(opt => opt.disabled = true);
+
+        if (selectedOptionIndex === qData.correct) {
+            // ✅ Respuesta correcta
+            options[selectedOptionIndex].classList.add('correct');
+        } else {
+            // ✅ Respuesta incorrecta: roja la elegida, verde la correcta
+            options[selectedOptionIndex].classList.add('wrong');
+            options[qData.correct].classList.add('correct');
+        }
+
+        // Cambiar botón a "Continuar"
+        actionBtn.classList.remove('active');
+        actionBtn.classList.add('active', 'continue');
+        actionBtn.innerText = "Continuar";
+    }
+
+    // ─────────────────────────────────────────────────────────
+    //  SIGUIENTE PREGUNTA
+    // ─────────────────────────────────────────────────────────
+    function nextQuestion() {
+        currentQIndex++;
+        updateProgress();
+        loadQuestion();
+    }
+
+    // ─────────────────────────────────────────────────────────
+    //  PROGRESO
+    // ─────────────────────────────────────────────────────────
+    function updateProgress() {
+        const total      = LESSON_DATA[currentLevel].questions.length;
+        const percentage = (currentQIndex / total) * 100;
+        progressBar.style.width = `${percentage}%`;
+    }
+
+    // ─────────────────────────────────────────────────────────
+    //  RESET BOTÓN
+    // ─────────────────────────────────────────────────────────
+    function resetActionBtn() {
+        actionBtn.className = 'btn-action';   // sin 'active' → deshabilitado visualmente
+        actionBtn.innerText = "Comprobar";
+    }
+
+    // ─────────────────────────────────────────────────────────
+    //  PANTALLA DE COMPLETADO
+    // ─────────────────────────────────────────────────────────
+    function showCompletion() {
+        isCompleted = true;
+
+        // Barra al 100%
+        progressBar.style.width = '100%';
+
+        questionText.innerText = "¡Lección Completada! 🎉";
+        optionsContainer.innerHTML = `
+            <p style="text-align:center; font-weight:700; font-size:1.1rem; color:#58cc02;">
+                ¡Muy bien! Terminaste la práctica de nivel ${currentLevel}.
+            </p>`;
+
+        // ✅ Solo cambiamos clases y texto, NO asignamos .onclick
+        //    El addEventListener('click', handleAction) ya está abajo
+        //    y handleAction detecta isCompleted=true → reinicia
+        actionBtn.className = 'btn-action active continue';
+        actionBtn.innerText = "Reiniciar";
+    }
+
+    // ─────────────────────────────────────────────────────────
+    //  EVENT LISTENERS — UN SOLO LUGAR, SIN MEZCLAR .onclick
+    // ─────────────────────────────────────────────────────────
+    audioBtn.addEventListener('click', playAudio);
+
+    // ✅ UN SOLO listener para el botón principal
+    actionBtn.addEventListener('click', handleAction);
+
+    levelSelector.addEventListener('change', (e) => {
+        currentLevel = e.target.value;
+        if (window.speechSynthesis.speaking) window.speechSynthesis.cancel();
+        initLesson();
+    });
+
+    // ── Hamburger del navbar ──────────────────────────────────
+    window.addEventListener('load', () => {
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const navMenu      = document.getElementById('nav-menu');
+
+        if (hamburgerBtn && navMenu) {
+            hamburgerBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                navMenu.classList.toggle('active');
+            });
+            document.addEventListener('click', (e) => {
+                if (navMenu.classList.contains('active') &&
+                    !navMenu.contains(e.target) &&
+                    !hamburgerBtn.contains(e.target)) {
+                    navMenu.classList.remove('active');
+                }
+            });
+        }
+    });
+
+    // Iniciar
+    initLesson();
+</script>
+<!-- ★ EGGLISH AUTH ★ -->
+<script type="module">
+  import { initIndexGuards } from '/Secciones/Js/guards.js';
+  initIndexGuards();
+</script>
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Egglish – Juegos</title>
+  <link rel="stylesheet" href="/Secciones/Css/Juegos.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<nav class="navbar">
+  <a href="/index.html" class="navbar-logo">
+    <img src="https://em-content.zobj.net/source/twitter/376/hatching-chick_1f423.png" alt="logo" class="logo-img"/>
+    <span class="logo-text">Egglish</span>
+  </a>
+
+  <button class="hamburger" id="hamburger-btn">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <div class="nav-menu" id="nav-menu">
+    <ul class="navbar-links">
+      <li><a href="/index.html">🏠 Inicio</a></li>
+      <li><a href="/Secciones/lecciones.html">📖 Lecciones</a></li>
+      <li><a href="/Secciones/Escucha.html">🎯 Escucha</a></li>
+      <li><a href="/Secciones/juegos.html" class="active">🎮 Juegos</a></li>
+      <li><a href="/Secciones/perfil.html">👤 Perfil</a></li>
+      <li><a href="/Secciones/eggy.html">🤖 Eggy IA</a></li>
+    </ul>
+
+    <div class="navbar-auth">
+      <a href="/entrar.html" class="btn-entrar">→ Entrar</a>
+      <a href="/Secciones/Registro.html" class="btn-registrarse">Registrarse</a>
+    </div>
+  </div>
+</nav>
+ 
+
+<!-- ── SCREEN 0: LEVEL SELECTOR ── -->
+<div id="screen-levels" class="screen active">
+  <div class="hero-banner">
+    <div class="hero-blobs">
+      <div class="blob blob1"></div>
+      <div class="blob blob2"></div>
+      <div class="blob blob3"></div>
+    </div>
+    <div class="hero-content">
+      <img src="https://em-content.zobj.net/source/twitter/376/hatching-chick_1f423.png" class="hero-chick" alt="pollito"/>
+      <h1 class="hero-title">¡A jugar y aprender!</h1>
+      <p class="hero-sub">Elige tu nivel y escoge un juego</p>
+    </div>
+  </div>
+
+  <div class="levels-section">
+    <div class="level-tabs">
+      <button class="level-tab active" data-level="A1">🐣 A1 <span>Básico</span></button>
+      <button class="level-tab" data-level="A2">🐥 A2 <span>Elemental</span></button>
+      <button class="level-tab" data-level="B1">🦅 B1 <span>Intermedio</span></button>
+    </div>
+
+    <div class="games-grid" id="games-grid">
+      <!-- cards injected by JS -->
+    </div>
+  </div>
+</div>
+
+<!-- ── SCREEN 1: MULTIPLE CHOICE ── -->
+<div id="screen-mc" class="screen game-screen">
+  <div class="game-bg">
+    <div class="game-header">
+      <button class="btn-back" onclick="goBack()">← Salir</button>
+      <div class="game-title-row">
+        <span class="game-tag" id="mc-level-tag">A1</span>
+        <span class="game-name">🎯 Opción Múltiple</span>
+      </div>
+      <div class="stars-row"><span class="star-icon">⭐</span><span id="mc-score">0</span></div>
+    </div>
+
+    <div class="game-card">
+      <div class="progress-row">
+        <span id="mc-q-label">Pregunta 1</span>
+        <div class="progress-track"><div class="progress-fill" id="mc-progress"></div></div>
+        <span id="mc-q-total">de 5</span>
+      </div>
+
+      <div class="question-area">
+        <div class="question-mascot">
+          <img src="https://em-content.zobj.net/source/twitter/376/hatching-chick_1f423.png" alt="mascot" class="q-mascot-img"/>
+        </div>
+        <p class="question-text" id="mc-question">¿Cómo se dice 'Huevo' en inglés?</p>
+      </div>
+
+      <div class="options-grid" id="mc-options">
+        <!-- injected -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SCREEN 2: WORD MATCH ── -->
+<div id="screen-match" class="screen game-screen">
+  <div class="game-bg game-bg--green">
+    <div class="game-header">
+      <button class="btn-back" onclick="goBack()">← Salir</button>
+      <div class="game-title-row">
+        <span class="game-tag" id="match-level-tag">A1</span>
+        <span class="game-name">🔗 Conecta Palabras</span>
+      </div>
+      <div class="stars-row"><span class="star-icon">⭐</span><span id="match-score">0</span></div>
+    </div>
+
+    <div class="game-card">
+      <p class="match-instruction">Toca una palabra en español y luego su traducción en inglés</p>
+      <div class="match-container">
+        <div class="match-col" id="match-es"><!-- injected --></div>
+        <div class="match-col" id="match-en"><!-- injected --></div>
+      </div>
+      <div id="match-feedback" class="match-feedback"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SCREEN 3: FILL THE BLANK ── -->
+<div id="screen-fill" class="screen game-screen">
+  <div class="game-bg game-bg--purple">
+    <div class="game-header">
+      <button class="btn-back" onclick="goBack()">← Salir</button>
+      <div class="game-title-row">
+        <span class="game-tag" id="fill-level-tag">A2</span>
+        <span class="game-name">✏️ Completa la Frase</span>
+      </div>
+      <div class="stars-row"><span class="star-icon">⭐</span><span id="fill-score">0</span></div>
+    </div>
+
+    <div class="game-card">
+      <div class="progress-row">
+        <span id="fill-q-label">Pregunta 1</span>
+        <div class="progress-track"><div class="progress-fill" id="fill-progress"></div></div>
+        <span id="fill-q-total">de 5</span>
+      </div>
+      <p class="question-text" id="fill-sentence"></p>
+      <div class="word-bank" id="fill-bank"></div>
+      <div class="fill-answer-row" id="fill-answer-row"></div>
+      <button class="btn-check" id="fill-check-btn" onclick="checkFill()">Verificar ✓</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── SCREEN 4: LISTEN & CHOOSE ── -->
+<div id="screen-listen" class="screen game-screen">
+  <div class="game-bg game-bg--orange">
+    <div class="game-header">
+      <button class="btn-back" onclick="goBack()">← Salir</button>
+      <div class="game-title-row">
+        <span class="game-tag" id="listen-level-tag">B1</span>
+        <span class="game-name">🔊 Escucha y Elige</span>
+      </div>
+      <div class="stars-row"><span class="star-icon">⭐</span><span id="listen-score">0</span></div>
+    </div>
+
+    <div class="game-card">
+      <div class="progress-row">
+        <span id="listen-q-label">Pregunta 1</span>
+        <div class="progress-track"><div class="progress-fill" id="listen-progress"></div></div>
+        <span id="listen-q-total">de 5</span>
+      </div>
+      <div class="listen-area">
+        <button class="btn-speak" id="btn-speak" onclick="speakWord()">🔊</button>
+        <p class="listen-hint">Presiona el botón y escucha la palabra</p>
+      </div>
+      <div class="options-grid" id="listen-options"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SCREEN 5: TRANSLATE ── -->
+<div id="screen-translate" class="screen game-screen">
+  <div class="game-bg game-bg--teal">
+    <div class="game-header">
+      <button class="btn-back" onclick="goBack()">← Salir</button>
+      <div class="game-title-row">
+        <span class="game-tag" id="translate-level-tag">B1</span>
+        <span class="game-name">🌐 Traduce la Frase</span>
+      </div>
+      <div class="stars-row"><span class="star-icon">⭐</span><span id="translate-score">0</span></div>
+    </div>
+
+    <div class="game-card">
+      <div class="progress-row">
+        <span id="translate-q-label">Pregunta 1</span>
+        <div class="progress-track"><div class="progress-fill" id="translate-progress"></div></div>
+        <span id="translate-q-total">de 5</span>
+      </div>
+      <p class="translate-label">Traduce al inglés:</p>
+      <p class="question-text" id="translate-sentence"></p>
+      <div class="word-bank" id="translate-bank"></div>
+      <div class="fill-answer-row" id="translate-answer-row"></div>
+      <button class="btn-check" id="translate-check-btn" onclick="checkTranslate()">Verificar ✓</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── SCREEN 6: RESULTS ── -->
+<div id="screen-results" class="screen">
+  <div class="results-bg">
+    <div class="results-card">
+      <div class="results-mascot-wrap">
+        <img src="https://em-content.zobj.net/source/twitter/376/hatching-chick_1f423.png" class="results-mascot" alt="pollito"/>
+        <div class="confetti-container" id="confetti-container"></div>
+      </div>
+      <h2 id="results-title">¡Excelente!</h2>
+      <p id="results-subtitle">Completaste el juego</p>
+      <div class="results-score-box">
+        <span class="results-stars">⭐</span>
+        <span id="results-score-val">0</span>
+        <span class="results-score-label">puntos</span>
+      </div>
+      <div class="results-badges" id="results-badges"></div>
+      <div class="results-actions">
+        <button class="btn-play-again" onclick="playAgain()">🔄 Jugar de nuevo</button>
+        <button class="btn-go-levels" onclick="goLevels()">🏠 Ver juegos</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer class="footer" id="main-footer">
+  <img src="https://em-content.zobj.net/source/twitter/376/hatching-chick_1f423.png" class="footer-logo" alt="logo"/>
+  <span class="footer-brand">Egglish</span>
+  <p class="footer-tagline">El pollito que te acompaña desde tu primer "Hello" hasta que hables con total fluidez.</p>
+  <p class="footer-copy">© 2026 Egglish. Todos los derechos reservados.</p>
+</footer>
+
+<script src="/Secciones/Js/Juegos.js"></script>
+<!-- ★ EGGLISH AUTH ★ -->
+<script type="module">
+  import { initIndexGuards } from '/Secciones/Js/guards.js';
+  initIndexGuards();
+</script>
+</body>
+</html>
